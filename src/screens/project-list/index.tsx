@@ -9,6 +9,10 @@ export type InputControl = Record<'name' | 'personId', string>;
 export interface UserInterface {
   id: string;
   name: string;
+  email: string;
+  title: string;
+  organization: string;
+  token: string;
 }
 export interface ListInterface {
   id: string;
