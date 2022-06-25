@@ -1,6 +1,6 @@
 //提供auth服务，todo:改成firebase
 
-import { UserInterface } from './src/screens/project-list/index';
+import { UserInterface } from './screens/project-list/index';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 

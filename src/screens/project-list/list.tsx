@@ -16,14 +16,15 @@ const List: FC<ListPropsInterface> = ({ list, users }) => {
         </tr>
       </thead>
       <tbody>
-        {list.map((project) => {
-          return (
-            <tr key={project.id}>
-              <th>{project.name}</th>
-              <th>{users.find((user) => user.id === project.personId)?.name}</th>
-            </tr>
-          );
-        })}
+        {list &&
+          list.map((project) => {
+            return (
+              <tr key={project.id}>
+                <th>{project.name}</th>
+                <th>{users && users.find((user) => user.id === project.personId)?.name}</th>
+              </tr>
+            );
+          })}
       </tbody>
     </table>
   );

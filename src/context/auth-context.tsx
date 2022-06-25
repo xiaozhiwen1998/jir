@@ -1,5 +1,5 @@
 import React, { createContext, ReactNode, useState } from 'react';
-import * as auth from '../../auth-provider';
+import * as auth from '../auth-provider';
 import { UserInterface } from '../screens/project-list';
 
 interface AuthFormInterface {
