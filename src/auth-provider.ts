@@ -27,7 +27,7 @@ export const login = (data: { username: string; password: string }) => {
       //登录时保存token
       return handleUserResponse(await res.json());
     } else {
-      return Promise.reject(res.json());
+      return Promise.reject(await res.json());
     }
   });
 };
@@ -45,7 +45,7 @@ export const register = (data: { username: string; password: string }) => {
       //登录时保存token
       return handleUserResponse(await res.json());
     } else {
-      return Promise.reject(res.json());
+      return Promise.reject(await res.json());
     }
   });
 };

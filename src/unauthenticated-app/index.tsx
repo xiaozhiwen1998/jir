@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Card } from 'antd';
+import { Card, Typography } from 'antd';
 import { LoginScreen } from './login';
 import { RegisterScreen } from './register';
 import styled from 'styled-components';
@@ -11,13 +11,18 @@ export const UnauthenticatedAPP = () => {
   //存储当前是什么状态
   const [isRegister, setIsRegister] = useState(false);
 
+  const [error, setError] = useState<Error | null>(null);
+
   return (
     <Container>
       <Header></Header>
       <Background />
       <ShadowCard>
         <Title>{isRegister ? '请注册' : '请登录'}</Title>
-        {isRegister ? <RegisterScreen /> : <LoginScreen />}
+        <div style={{ height: '30px' }}>
+          {error ? <Typography.Text type={'danger'}>{error.message}</Typography.Text> : null}
+        </div>
+        {isRegister ? <RegisterScreen onError={setError} /> : <LoginScreen onError={setError} />}
         <a
           onClick={() => {
             setIsRegister(!isRegister);
@@ -27,10 +32,6 @@ export const UnauthenticatedAPP = () => {
     </Container>
   );
 };
-
-export const LongButton = styled(Button)`
-  width: 100%;
-`;
 
 const Title = styled.h2`
   user-select: none;

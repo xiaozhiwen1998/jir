@@ -1,16 +1,20 @@
 import React from 'react';
 import { useAuth } from '../context/auth-context';
-import { Form, Input } from 'antd';
-import { LongButton } from 'unauthenticated-app';
-export const LoginScreen = () => {
+import { Form, Input, Button } from 'antd';
+import { useAsync } from 'hooks/useAsync';
+
+export const LoginScreen = ({ onError }: { onError: (err: Error) => void }) => {
   const { login } = useAuth();
+  const { run, isLoading } = useAsync(undefined, true);
 
   //tips:查看onSubmit函数签名。
-  const handleSubmit = (values: any) => {
+  const handleSubmit = (values: Record<'username' | 'password', string>) => {
     // e.preventDefault();
     // const username = (e.currentTarget.elements[0] as HTMLInputElement).value;
     // const password = (e.currentTarget.elements[1] as HTMLInputElement).value;
-    login(values);
+    run(login(values)).catch((error) => {
+      onError(error);
+    });
   };
 
   return (
@@ -36,7 +40,9 @@ export const LoginScreen = () => {
       </Form.Item>
       <Form.Item>
         {/* antd的type是主题，对应的类型是htmlType */}
-        <LongButton htmlType="submit">登录</LongButton>
+        <Button loading={isLoading} htmlType="submit">
+          登录
+        </Button>
       </Form.Item>
     </Form>
   );

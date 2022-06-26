@@ -1,12 +1,13 @@
-import { useHttp } from 'hooks/useHttp';
-
-import React, { useEffect, useState } from 'react';
-import { useDebounce } from '../../hooks/useDebounce';
-import { cleanObject } from '../../utils';
+import { Typography } from 'antd';
+import { useProject } from 'hooks/getData/useProject';
+import { useUsers } from 'hooks/getData/useUser';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import List from './list';
 import SearchPanel from './search-panel';
 
-export type InputControl = Record<'name' | 'personId', string>;
+export type InputControl = Pick<ProjectInterface, 'name' | 'personId'>;
+
 export interface UserInterface {
   id: string;
   name: string;
@@ -15,7 +16,7 @@ export interface UserInterface {
   organization: string;
   token: string;
 }
-export interface ListInterface {
+export interface ProjectInterface {
   id: string;
   name: string;
   personId: string;
@@ -29,33 +30,31 @@ const ProjectListScreen = () => {
     name: '',
     personId: '',
   });
+
+  // //state 是否正在加载
+  // const [isLoading, setIsLoading] = useState(false);
+  // //state 是否出错
+  // const [error, setError] = useState('');
+  // state 存储项目信息
+  // const [list, setList] = useState<ProjectInterface[]>([]);
   //state 存储用户信息
-  const [users, setUsers] = useState<UserInterface[]>([]);
-
-  //state 存储项目信息
-  const [list, setList] = useState<ListInterface[]>([]);
-
-  // debounce
-  const debounceValue = useDebounce(param, 300);
-
-  // 获取用户列表
-
-  const client = useHttp();
-
-  useEffect(() => {
-    client('users').then(setUsers);
-  }, []);
-
-  useEffect(() => {
-    client('projects', { data: cleanObject(param) }).then(setList);
-  }, [debounceValue]);
+  //  const [users, setUsers] = useState<UserInterface[]>([]);
+  //使用useAsync 替代 上述三个state
+  const { error, isLoading, data: list } = useProject(param);
+  const { data: users } = useUsers();
 
   return (
-    <div>
-      <SearchPanel param={param} setParam={setParam} users={users}></SearchPanel>
-      <List list={list} users={users}></List>
-    </div>
+    <ContentWarp>
+      <h1>项目列表页</h1>
+      <SearchPanel param={param} setParam={setParam} users={users || []} />
+      {error ? <Typography.Text type="danger"> {error.message}</Typography.Text> : null}
+      <List dataSource={list || []} users={users || []} loading={isLoading} />
+    </ContentWarp>
   );
 };
 
 export default ProjectListScreen;
+
+const ContentWarp = styled.div`
+  padding: 3.2rem;
+`;

@@ -1,3 +1,5 @@
+import { FullPageLoading } from 'components/lib';
+import { useAsync } from 'hooks/useAsync';
 import { useMount } from 'hooks/useMount';
 import React, { createContext, ReactNode, useState } from 'react';
 import { http } from 'utils/http';
@@ -23,8 +25,19 @@ AuthContext.displayName = 'AuthContext';
 
 //封装AuthContext.Provider
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  //存储用户信息
-  const [user, setUser] = useState<UserInterface | null>(null);
+  // //存储用户信息 使用useAsync替代
+  // const [user, setUser] = useState<UserInterface | null>(null);
+
+  const {
+    run,
+    data: user,
+    error,
+    isLoading,
+    isIdle,
+    isError,
+    isSuccess,
+    setData: setUser,
+  } = useAsync<UserInterface | null>();
 
   //login方法
   const login = (form: AuthFormInterface) => auth.login(form).then(setUser);
@@ -37,8 +50,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   //读取token,实现自动登录
   useMount(() => {
-    bootstrapUser().then(setUser);
+    run(bootstrapUser());
   });
+
+  if (isIdle || isLoading) {
+    //eslint-disable-next-line
+    return <FullPageLoading></FullPageLoading>;
+  }
 
   return (
     <AuthContext.Provider value={{ user, login, register, logout }}>

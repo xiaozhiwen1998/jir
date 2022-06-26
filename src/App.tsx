@@ -1,6 +1,6 @@
 import { useAuth } from 'context/auth-context';
 import React from 'react';
-import './App.less';
+import './App.css';
 import { UnauthenticatedAPP } from './unauthenticated-app/index';
 import AuthenticatedApp from './authenticated-app';
 
