@@ -1,4 +1,5 @@
-import qs from 'qs';
+import { useHttp } from 'hooks/useHttp';
+
 import React, { useEffect, useState } from 'react';
 import { useDebounce } from '../../hooks/useDebounce';
 import { cleanObject } from '../../utils';
@@ -22,9 +23,6 @@ export interface ListInterface {
   created: string;
 }
 
-// TIP:会自动根据环境切换
-const apiUrl = process.env.REACT_APP_API_URL;
-
 const ProjectListScreen = () => {
   // state 可控组件
   const [param, setParam] = useState<InputControl>({
@@ -41,28 +39,15 @@ const ProjectListScreen = () => {
   const debounceValue = useDebounce(param, 300);
 
   // 获取用户列表
+
+  const client = useHttp();
+
   useEffect(() => {
-    fetch(`${apiUrl}/users`)
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-      })
-      .then((res: any) => {
-        setUsers(res);
-      });
+    client('users').then(setUsers);
   }, []);
 
   useEffect(() => {
-    fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(param))}`)
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-      })
-      .then((res: any) => {
-        setList(res);
-      });
+    client('projects', { data: cleanObject(param) }).then(setList);
   }, [debounceValue]);
 
   return (

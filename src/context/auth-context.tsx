@@ -1,4 +1,6 @@
+import { useMount } from 'hooks/useMount';
 import React, { createContext, ReactNode, useState } from 'react';
+import { http } from 'utils/http';
 import * as auth from '../auth-provider';
 import { UserInterface } from '../screens/project-list';
 
@@ -33,6 +35,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   //logout方法
   const logout = () => auth.logout().then(() => setUser(null));
 
+  //读取token,实现自动登录
+  useMount(() => {
+    bootstrapUser().then(setUser);
+  });
+
   return (
     <AuthContext.Provider value={{ user, login, register, logout }}>
       {children}
@@ -47,4 +54,16 @@ export const useAuth = () => {
     throw new Error('useAuth必须在 AuthProvider中使用');
   }
   return context;
+};
+
+//tip:防止刷新后返回登录界面
+const bootstrapUser = async () => {
+  let user = null;
+  const token = auth.getToken();
+  if (token) {
+    //tip: 为什么是me
+    const data = await http('me', { token: token });
+    user = data.user;
+  }
+  return user;
 };

@@ -9,5 +9,3 @@ export const cleanObject = (object: Record<string, unknown>): Record<string, unk
   });
   return result;
 };
-
-console.log(cleanObject({ name: 'xiaozhiwen', age: 0, parent: undefined }));

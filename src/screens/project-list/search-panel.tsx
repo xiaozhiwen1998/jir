@@ -1,3 +1,4 @@
+import { Form, Input, Select } from 'antd';
 import React, { FC } from 'react';
 import { UserInterface, InputControl } from './index';
 
@@ -12,29 +13,29 @@ const SearchPanel: FC<SearchPanelPropsInterface> = ({ param, setParam, users }) 
 
   return (
     <div>
-      <form>
-        <input
+      <Form>
+        <Input
           type="text"
           value={param.name}
           onChange={(e) => setParam({ ...param, name: e.target.value })}
-        ></input>
+        ></Input>
 
-        <select
+        <Select
           value={param.personId}
-          onChange={(e) => setParam({ ...param, personId: e.target.value })}
+          onChange={(value) => setParam({ ...param, personId: value })}
         >
-          <option value="">负责人</option>
+          <Select.Option value="">负责人</Select.Option>
 
           {users &&
             users.map((user) => {
               return (
-                <option key={user.id} value={user.id}>
+                <Select.Option key={user.id} value={user.id}>
                   {user.name}
-                </option>
+                </Select.Option>
               );
             })}
-        </select>
-      </form>
+        </Select>
+      </Form>
     </div>
   );
 };

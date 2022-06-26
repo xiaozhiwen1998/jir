@@ -1,30 +1,43 @@
-import React, { FormEvent } from 'react';
+import React from 'react';
 import { useAuth } from '../context/auth-context';
-
+import { Form, Input } from 'antd';
+import { LongButton } from 'unauthenticated-app';
 export const LoginScreen = () => {
-  const apiUrl = process.env.REACT_APP_API_URL;
-
-  const { login, user } = useAuth();
+  const { login } = useAuth();
 
   //tips:查看onSubmit函数签名。
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const username = (e.currentTarget.elements[0] as HTMLInputElement).value;
-    const password = (e.currentTarget.elements[1] as HTMLInputElement).value;
-    login({ username, password });
+  const handleSubmit = (values: any) => {
+    // e.preventDefault();
+    // const username = (e.currentTarget.elements[0] as HTMLInputElement).value;
+    // const password = (e.currentTarget.elements[1] as HTMLInputElement).value;
+    login(values);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="username">用户名</label>
-        <input type={'text'} id={'username'}></input>
-      </div>
-      <div>
-        <label htmlFor="password">密码</label>
-        <input type={'password'} id={'password'}></input>
-      </div>
-      <button type={'submit'}>登录</button>
-    </form>
+    //tip: 原生时间 onSubmit, antd 使用的是onFinish
+    <Form onFinish={handleSubmit}>
+      <Form.Item
+        labelCol={{ span: 6 }}
+        wrapperCol={{ span: 18 }}
+        label="用户名"
+        name="username"
+        rules={[{ required: true, message: '请输入用户名' }]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
+        label="密  码"
+        name="password"
+        rules={[{ required: true, message: '请输入密码' }]}
+        labelCol={{ span: 6 }}
+        wrapperCol={{ span: 18 }}
+      >
+        <Input.Password />
+      </Form.Item>
+      <Form.Item>
+        {/* antd的type是主题，对应的类型是htmlType */}
+        <LongButton htmlType="submit">登录</LongButton>
+      </Form.Item>
+    </Form>
   );
 };

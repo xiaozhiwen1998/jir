@@ -1,3 +1,4 @@
+import { Table } from 'antd';
 import React, { FC } from 'react';
 import { ListInterface, UserInterface } from './index';
 
@@ -8,25 +9,26 @@ interface ListPropsInterface {
 
 const List: FC<ListPropsInterface> = ({ list, users }) => {
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>名称</th>
-          <th>负责人</th>
-        </tr>
-      </thead>
-      <tbody>
-        {list &&
-          list.map((project) => {
+    <Table
+      pagination={false}
+      columns={[
+        {
+          title: '名称',
+          dataIndex: 'name',
+          sorter: (a, b) => a.name.localeCompare(b.name),
+        },
+        {
+          title: '负责人',
+          dataIndex: 'name',
+          render(value, project) {
             return (
-              <tr key={project.id}>
-                <th>{project.name}</th>
-                <th>{users && users.find((user) => user.id === project.personId)?.name}</th>
-              </tr>
+              <span>{users && users.find((user) => user.id === project.personId)?.name};</span>
             );
-          })}
-      </tbody>
-    </table>
+          },
+        },
+      ]}
+      dataSource={list}
+    ></Table>
   );
 };
 
