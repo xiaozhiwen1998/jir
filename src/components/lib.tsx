@@ -1,5 +1,3 @@
-import { Spin } from 'antd';
-import React from 'react';
 import styled from 'styled-components';
 
 export const Row = styled.div<{
@@ -21,7 +19,7 @@ export const Row = styled.div<{
   }
 `;
 
-const FullPage = styled.div`
+export const FullPage = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -29,10 +27,3 @@ const FullPage = styled.div`
   width: 100vw;
   height: 100vh;
 `;
-
-export const FullPageLoading = () => (
-  <FullPage>
-    <Spin size={'large'}></Spin>
-    <span>加载中....</span>
-  </FullPage>
-);

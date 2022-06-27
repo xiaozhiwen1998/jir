@@ -10,7 +10,6 @@ export interface SearchPanelPropsInterface {
 
 const SearchPanel: FC<SearchPanelPropsInterface> = ({ param, setParam, users }) => {
   // state 存储用户信息
-
   return (
     <div style={{ marginBottom: '2rem' }}>
       <Form layout={'inline'}>
@@ -31,7 +30,7 @@ const SearchPanel: FC<SearchPanelPropsInterface> = ({ param, setParam, users }) 
             {users &&
               users.map((user) => {
                 return (
-                  <Select.Option key={user.id} value={user.id}>
+                  <Select.Option key={user.id} value={String(user.id)}>
                     {user.name}
                   </Select.Option>
                 );

@@ -1,6 +1,7 @@
 import { Table, TableProps } from 'antd';
 import dayjs from 'dayjs';
 import React, { FC } from 'react';
+import { Link } from 'react-router-dom';
 import { ProjectInterface, UserInterface } from './index';
 
 //tip: TableProps 接收泛型，表示要渲染数据的类型,数据源在dataSource中
@@ -23,8 +24,12 @@ const List: FC<ListPropsInterface> = ({ users, ...resProps }) => {
         { title: 'id', dataIndex: 'id' },
         {
           title: '名称',
-          dataIndex: 'name',
+
           sorter: (a, b) => a.name.localeCompare(b.name),
+          render(value, project) {
+            //tip:id 后台传入的是 number类型
+            return <Link to={String(project.id)}>{project.name}</Link>;
+          },
         },
         {
           title: '部门',
@@ -33,14 +38,12 @@ const List: FC<ListPropsInterface> = ({ users, ...resProps }) => {
         {
           title: '负责人',
           render(value, project) {
-            return (
-              <span>{users && users.find((user) => user.id === project.personId)?.name};</span>
-            );
+            return <span>{users && users.find((user) => user.id === project.personId)?.name}</span>;
           },
         },
         {
           title: '创建时间',
-          dataIndex: 'created',
+
           render(value, project) {
             return (
               <span>{project.created ? dayjs(project.created).format('YYYY-MM-DD') : '未知'}</span>

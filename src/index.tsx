@@ -1,5 +1,7 @@
+import './wdyr';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -15,7 +17,9 @@ loadServer(() => {
     <React.StrictMode>
       <AppProvider>
         <DevTools />
-        <App />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       </AppProvider>
     </React.StrictMode>,
   );

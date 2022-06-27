@@ -1,7 +1,8 @@
-import { FullPageLoading } from 'components/lib';
+import { FullPageErrorFallback } from 'components/full-page-error';
+import { FullPageLoading } from 'components/full-page-loading';
 import { useAsync } from 'hooks/useAsync';
 import { useMount } from 'hooks/useMount';
-import React, { createContext, ReactNode, useState } from 'react';
+import React, { createContext, ReactNode } from 'react';
 import { http } from 'utils/http';
 import * as auth from '../auth-provider';
 import { UserInterface } from '../screens/project-list';
@@ -35,7 +36,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     isLoading,
     isIdle,
     isError,
-    isSuccess,
+
     setData: setUser,
   } = useAsync<UserInterface | null>();
 
@@ -56,6 +57,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   if (isIdle || isLoading) {
     //eslint-disable-next-line
     return <FullPageLoading></FullPageLoading>;
+  }
+
+  //如果请求me登录接口出错，会自动跳转到登录界面，需要使其显示故障。
+  if (isError) {
+    return <FullPageErrorFallback error={error}></FullPageErrorFallback>;
   }
 
   return (
@@ -79,7 +85,7 @@ const bootstrapUser = async () => {
   let user = null;
   const token = auth.getToken();
   if (token) {
-    //tip: 为什么是me
+    //tip: 请求me接口
     const data = await http('me', { token: token });
     user = data.user;
   }

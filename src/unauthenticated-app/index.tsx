@@ -8,7 +8,6 @@ import left from 'assets/left.svg';
 import right from 'assets/right.svg';
 
 export const UnauthenticatedAPP = () => {
-  //存储当前是什么状态
   const [isRegister, setIsRegister] = useState(false);
 
   const [error, setError] = useState<Error | null>(null);
@@ -16,6 +15,7 @@ export const UnauthenticatedAPP = () => {
   return (
     <Container>
       <Header></Header>
+
       <Background />
       <ShadowCard>
         <Title>{isRegister ? '请注册' : '请登录'}</Title>

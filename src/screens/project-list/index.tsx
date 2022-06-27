@@ -1,13 +1,17 @@
+import React from 'react';
+import styled from 'styled-components';
 import { Typography } from 'antd';
+
 import { useProject } from 'hooks/getData/useProject';
 import { useUsers } from 'hooks/getData/useUser';
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import { useDocumentTitle } from 'hooks/useDocumentTitle';
+
 import List from './list';
+
+import { useUrlQueryParam } from 'hooks/use-url-query-param';
+import { useDebounce } from 'hooks/useDebounce';
 import SearchPanel from './search-panel';
-
 export type InputControl = Pick<ProjectInterface, 'name' | 'personId'>;
-
 export interface UserInterface {
   id: string;
   name: string;
@@ -25,27 +29,17 @@ export interface ProjectInterface {
 }
 
 const ProjectListScreen = () => {
-  // state 可控组件
-  const [param, setParam] = useState<InputControl>({
-    name: '',
-    personId: '',
-  });
+  useDocumentTitle('我的项目列表', false);
 
-  // //state 是否正在加载
-  // const [isLoading, setIsLoading] = useState(false);
-  // //state 是否出错
-  // const [error, setError] = useState('');
-  // state 存储项目信息
-  // const [list, setList] = useState<ProjectInterface[]>([]);
-  //state 存储用户信息
-  //  const [users, setUsers] = useState<UserInterface[]>([]);
-  //使用useAsync 替代 上述三个state
-  const { error, isLoading, data: list } = useProject(param);
+  const [param, setParam] = useUrlQueryParam(['name', 'personId']);
+  const debounceValue = useDebounce(param, 300);
+  const { error, isLoading, data: list } = useProject(debounceValue);
   const { data: users } = useUsers();
 
   return (
     <ContentWarp>
       <h1>项目列表页</h1>
+      {/* tip: 这里传入的param 每次渲染不一样，会导致循环渲染。 {a:1} !=={a:1} */}
       <SearchPanel param={param} setParam={setParam} users={users || []} />
       {error ? <Typography.Text type="danger"> {error.message}</Typography.Text> : null}
       <List dataSource={list || []} users={users || []} loading={isLoading} />
@@ -54,6 +48,9 @@ const ProjectListScreen = () => {
 };
 
 export default ProjectListScreen;
+
+//查找循环渲染的原因
+// ProjectListScreen.whyDidYouRender = true;
 
 const ContentWarp = styled.div`
   padding: 3.2rem;
