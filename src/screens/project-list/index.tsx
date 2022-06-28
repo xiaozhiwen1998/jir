@@ -26,6 +26,7 @@ export interface ProjectInterface {
   personId: string;
   organization: string;
   created: string;
+  pin: boolean; //是否收藏
 }
 
 const ProjectListScreen = () => {
@@ -33,7 +34,7 @@ const ProjectListScreen = () => {
 
   const [param, setParam] = useUrlQueryParam(['name', 'personId']);
   const debounceValue = useDebounce(param, 300);
-  const { error, isLoading, data: list } = useProject(debounceValue);
+  const { error, isLoading, data: list, retry } = useProject(debounceValue);
   const { data: users } = useUsers();
 
   return (
@@ -42,7 +43,7 @@ const ProjectListScreen = () => {
       {/* tip: 这里传入的param 每次渲染不一样，会导致循环渲染。 {a:1} !=={a:1} */}
       <SearchPanel param={param} setParam={setParam} users={users || []} />
       {error ? <Typography.Text type="danger"> {error.message}</Typography.Text> : null}
-      <List dataSource={list || []} users={users || []} loading={isLoading} />
+      <List refresh={retry} dataSource={list || []} users={users || []} loading={isLoading} />
     </ContentWarp>
   );
 };
