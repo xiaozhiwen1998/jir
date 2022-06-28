@@ -4,7 +4,7 @@ import { cleanObject } from 'utils';
 import { useAsync } from '../useAsync';
 import { useHttp } from '../useHttp';
 
-export const useProject = (param: InputControl) => {
+export const useProject = (param?: InputControl) => {
   const { run, ...result } = useAsync<ProjectInterface[]>();
   const client = useHttp();
 

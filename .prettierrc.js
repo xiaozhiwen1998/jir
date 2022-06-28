@@ -11,6 +11,7 @@ module.exports = {
   requirePragma: false, //无需顶部注释即可格式化
   insertPragma: false, //在已被prettier格式化的文件顶部加上标注
   htmlWhitespaceSensitivity: 'ignore', //对HTML全局空白不敏感
-  endOfLine: 'lf', //结束行形式
+  endOfLine: 'auto', //结束行形式
   embeddedLanguageFormatting: 'auto', //对引用代码进行格式化
+  bracketSameLine: true, //jsx 单独换行
 };

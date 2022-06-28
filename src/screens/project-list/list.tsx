@@ -1,4 +1,4 @@
-import { Table, TableProps } from 'antd';
+import { Button, Dropdown, Menu, Table, TableProps } from 'antd';
 import Pin from 'components/pin';
 import dayjs from 'dayjs';
 import { useEditProject } from 'hooks/getData/useProject';
@@ -10,10 +10,10 @@ import { ProjectInterface, UserInterface } from './index';
 interface ListPropsInterface extends TableProps<ProjectInterface> {
   users: UserInterface[];
   refresh: (() => void) | undefined;
-  // isLoading: boolean;  // tip: 使用继承 tableProps，使其能够添加更多属性
+  setProjectModelOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const List: FC<ListPropsInterface> = ({ users, refresh, ...resProps }) => {
+const List: FC<ListPropsInterface> = ({ users, refresh, setProjectModelOpen, ...resProps }) => {
   const { mutate } = useEditProject();
 
   //tip:函数柯里化()()
@@ -55,15 +55,43 @@ const List: FC<ListPropsInterface> = ({ users, refresh, ...resProps }) => {
         },
         {
           title: '创建时间',
-
           render(value, project) {
             return (
               <span>{project.created ? dayjs(project.created).format('YYYY-MM-DD') : '未知'}</span>
             );
           },
         },
-      ]}
-    ></Table>
+        {
+          title: '编辑',
+          render(value, project) {
+            return (
+              <Dropdown
+                overlay={
+                  <Menu>
+                    <Menu.Item
+                      key={'edit'}
+                      onClick={() => {
+                        setProjectModelOpen(true);
+                      }}>
+                      编辑
+                    </Menu.Item>
+                    <Menu.Item
+                      key={'edit'}
+                      onClick={() => {
+                        //todo
+                      }}>
+                      删除
+                    </Menu.Item>
+                  </Menu>
+                }>
+                <Button type="link" style={{ padding: '0px' }}>
+                  ...
+                </Button>
+              </Dropdown>
+            );
+          },
+        },
+      ]}></Table>
   );
 };
 

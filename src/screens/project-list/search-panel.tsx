@@ -19,13 +19,12 @@ const SearchPanel: FC<SearchPanelPropsInterface> = ({ param, setParam, users }) 
             type="text"
             value={param.name}
             onChange={(e) => setParam({ ...param, name: e.target.value })}
-          ></Input>
+          />
         </Form.Item>
         <Form.Item>
           <Select
             value={param.personId}
-            onChange={(value) => setParam({ ...param, personId: value })}
-          >
+            onChange={(value) => setParam({ ...param, personId: value })}>
             <Select.Option value="">负责人</Select.Option>
             {users &&
               users.map((user) => {

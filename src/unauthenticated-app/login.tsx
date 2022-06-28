@@ -25,8 +25,7 @@ export const LoginScreen = ({ onError }: { onError: (err: Error) => void }) => {
         wrapperCol={{ span: 18 }}
         label="用户名"
         name="username"
-        rules={[{ required: true, message: '请输入用户名' }]}
-      >
+        rules={[{ required: true, message: '请输入用户名' }]}>
         <Input />
       </Form.Item>
       <Form.Item
@@ -34,8 +33,7 @@ export const LoginScreen = ({ onError }: { onError: (err: Error) => void }) => {
         name="password"
         rules={[{ required: true, message: '请输入密码' }]}
         labelCol={{ span: 6 }}
-        wrapperCol={{ span: 18 }}
-      >
+        wrapperCol={{ span: 18 }}>
         <Input.Password />
       </Form.Item>
       <Form.Item>

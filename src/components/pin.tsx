@@ -13,7 +13,7 @@ export const Pin: FC<PinProps> = ({ checked, onCheckedChange, ...resProps }) => 
       value={checked ? 1 : 0}
       onChange={(num) => onCheckedChange?.(!!num)}
       {...resProps}
-    ></Rate>
+    />
   );
 };
 export default Pin;

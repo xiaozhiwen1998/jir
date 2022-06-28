@@ -15,7 +15,6 @@ export const UnauthenticatedAPP = () => {
   return (
     <Container>
       <Header></Header>
-
       <Background />
       <ShadowCard>
         <Title>{isRegister ? '请注册' : '请登录'}</Title>
@@ -26,8 +25,7 @@ export const UnauthenticatedAPP = () => {
         <a
           onClick={() => {
             setIsRegister(!isRegister);
-          }}
-        >{`${isRegister ? '已经有账号了？直接登录' : '没有账号？去注册'}`}</a>
+          }}>{`${isRegister ? '已经有账号了？直接登录' : '没有账号？去注册'}`}</a>
       </ShadowCard>
     </Container>
   );

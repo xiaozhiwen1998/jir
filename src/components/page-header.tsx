@@ -7,8 +7,13 @@ import { useAuth } from 'context/auth-context';
 // tip: 使用svg导入的方式，而不是img
 import { ReactComponent as SoftwareLogo } from 'assets/software-logo.svg';
 import { resetRoute } from 'utils/resetRoute';
+import ProjectPopover from './project-popover';
 
-export const PageHeader = () => {
+export const PageHeader = ({
+  setProjectModelOpen,
+}: {
+  setProjectModelOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const { logout, user } = useAuth();
   const menu = <Menu items={[{ key: 'logout', label: <a onClick={logout}>退出登录</a> }]} />;
   return (
@@ -20,7 +25,7 @@ export const PageHeader = () => {
         <Button type={'link'} onClick={resetRoute}>
           <SoftwareLogo width={'18rem'} color={'rgb(38,132,255)'}></SoftwareLogo>
         </Button>
-        <h2>项目</h2>
+        <ProjectPopover setProjectModelOpen={setProjectModelOpen} />
         <h2>用户</h2>
       </HeaderLeft>
       <HeaderRight>

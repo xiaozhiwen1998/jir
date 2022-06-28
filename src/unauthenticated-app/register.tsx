@@ -39,8 +39,7 @@ export const RegisterScreen = ({ onError }: { onError: (err: Error | null) => vo
       onFocus={handleOnFocus}
       onBlur={handleOnBlur}
       labelCol={{ span: 8 }}
-      wrapperCol={{ span: 20 }}
-    >
+      wrapperCol={{ span: 20 }}>
       <Form.Item label="用户名" name="username" rules={[{ required: true, message: '输入用户名' }]}>
         <Input />
       </Form.Item>
@@ -50,8 +49,7 @@ export const RegisterScreen = ({ onError }: { onError: (err: Error | null) => vo
       <Form.Item
         label="确认密码"
         name="confirmPassword"
-        rules={[{ required: true, message: '输入密码' }]}
-      >
+        rules={[{ required: true, message: '输入密码' }]}>
         <Input.Password />
       </Form.Item>
       <Form.Item>
