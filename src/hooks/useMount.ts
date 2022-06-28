@@ -4,5 +4,6 @@ import { useEffect } from 'react';
 export const useMount = (fn: Function) => {
   useEffect(() => {
     fn();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };

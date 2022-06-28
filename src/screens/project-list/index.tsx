@@ -31,7 +31,6 @@ export interface ProjectInterface {
 
 const ProjectListScreen = () => {
   useDocumentTitle('我的项目列表', false);
-
   const [param, setParam] = useUrlQueryParam(['name', 'personId']);
   const debounceValue = useDebounce(param, 300);
   const { error, isLoading, data: list, retry } = useProject(debounceValue);

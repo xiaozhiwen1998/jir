@@ -17,5 +17,5 @@
     "noEmit": true,
     "jsx": "react"
   },
-  "include": ["src", "auth-provider.ts","images.d.ts"]
+  "include": ["src", "auth-provider.ts", "images.d.ts"]
 }

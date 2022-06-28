@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { InputControl, ProjectInterface } from 'screens/project-list';
 import { cleanObject } from 'utils';
 import { useAsync } from '../useAsync';
@@ -8,12 +8,16 @@ export const useProject = (param: InputControl) => {
   const { run, ...result } = useAsync<ProjectInterface[]>();
   const client = useHttp();
 
-  useEffect(() => {
-    run(client('projects', { data: cleanObject(param) }), {
-      retry: () => client('projects', { data: cleanObject(param) }),
-    });
-  }, [param]);
+  const fetchProjects = useCallback(
+    () => client('projects', { data: cleanObject(param || {}) }),
+    [param, client],
+  );
 
+  useEffect(() => {
+    run(fetchProjects(), {
+      retry: fetchProjects,
+    });
+  }, [fetchProjects, param, run]);
   return result;
 };
 
