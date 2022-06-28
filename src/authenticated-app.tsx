@@ -6,12 +6,23 @@ import styled from 'styled-components';
 import ProjectListScreen from './screens/project-list';
 import ProjectScreen from 'screens/project-screen';
 import ProjectModal from 'screens/project-list/project-modal';
+import { Button } from 'antd';
 
 const AuthenticatedApp = () => {
   const [projectModelOpen, setProjectModelOpen] = useState(false);
   return (
     <Container>
-      <PageHeader setProjectModelOpen={setProjectModelOpen}></PageHeader>
+      <PageHeader
+        projectButton={
+          <Button
+            style={{ paddingLeft: '0px' }}
+            type={'link'}
+            onClick={() => {
+              setProjectModelOpen(true);
+            }}>
+            创建新项目
+          </Button>
+        }></PageHeader>
       <Main>
         <Routes>
           <Route

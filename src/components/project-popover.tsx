@@ -3,11 +3,7 @@ import { useProject } from 'hooks/getData/useProject';
 import React from 'react';
 import styled from 'styled-components';
 
-const ProjectPopover = ({
-  setProjectModelOpen,
-}: {
-  setProjectModelOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+const ProjectPopover = ({ projectButton }: { projectButton: JSX.Element }) => {
   const { data: projects, isLoading } = useProject(); //获取project列表
 
   const pinnedProject = projects?.filter((project) => project.pin); //筛选所有收场项目
@@ -23,14 +19,7 @@ const ProjectPopover = ({
         ))}
       </List>
       <Divider style={{ margin: '2px' }} />
-      <Button
-        style={{ paddingLeft: '0px' }}
-        type={'link'}
-        onClick={() => {
-          setProjectModelOpen(true);
-        }}>
-        创建新项目
-      </Button>
+      {projectButton}
     </ContentWrap>
   );
   return (
