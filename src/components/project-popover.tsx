@@ -1,10 +1,10 @@
-import { Button, Divider, List, Popover, Typography } from 'antd';
+import { Divider, List, Popover, Typography } from 'antd';
 import { useProject } from 'hooks/getData/useProject';
 import React from 'react';
 import styled from 'styled-components';
 
 const ProjectPopover = ({ projectButton }: { projectButton: JSX.Element }) => {
-  const { data: projects, isLoading } = useProject(); //获取project列表
+  const { data: projects } = useProject(); //获取project列表
 
   const pinnedProject = projects?.filter((project) => project.pin); //筛选所有收场项目
 

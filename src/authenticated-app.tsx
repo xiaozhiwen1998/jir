@@ -10,19 +10,19 @@ import { Button } from 'antd';
 
 const AuthenticatedApp = () => {
   const [projectModelOpen, setProjectModelOpen] = useState(false);
+  const projectButton = (
+    <Button
+      style={{ paddingLeft: '0px' }}
+      type={'link'}
+      onClick={() => {
+        setProjectModelOpen(true);
+      }}>
+      创建新项目
+    </Button>
+  );
   return (
     <Container>
-      <PageHeader
-        projectButton={
-          <Button
-            style={{ paddingLeft: '0px' }}
-            type={'link'}
-            onClick={() => {
-              setProjectModelOpen(true);
-            }}>
-            创建新项目
-          </Button>
-        }></PageHeader>
+      <PageHeader projectButton={projectButton}></PageHeader>
       <Main>
         <Routes>
           <Route
